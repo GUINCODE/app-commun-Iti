@@ -7,6 +7,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 class LoginFormModel {
   username = "";
   password = "";
+  falseConnexion = false
 }
 
 @Component({
@@ -30,9 +31,13 @@ export class LoginComponent implements OnInit {
   }
 
   goToRegistration() {
-    // TODO naviguer vers "/splash/register"
+   this.router.navigate(['/splash/register']);
+  //  console.log("register");
   }
 
+   messageLoginFailled(): void {
+    this.nzMessageService.create('error', `Erreure de connexion , login ou mot de passe incorect`);
+  }
   submit() {
     this.login();
   }
@@ -41,11 +46,15 @@ export class LoginComponent implements OnInit {
     if (this.ngForm.form.invalid) {
       return;
     }
+    //  console.log("test login");
 
     try {
       // TODO vérifier le résultat de l'authentification. Rediriger sur "/" en cas de succès ou afficher une erreur en cas d'échec
-      await this.authService.authenticate(this.model.username, this.model.password);
-
+      if (await (await this.authService.authenticate(this.model.username, this.model.password)).success) {
+        this.router.navigate(['/']);
+      }
+      this.model.falseConnexion= true
+      this.messageLoginFailled()
     } catch (e) {
       this.nzMessageService.error("Une erreur est survenue. Veuillez réessayer plus tard");
     }

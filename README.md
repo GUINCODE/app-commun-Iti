@@ -46,7 +46,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ### Sign Up
 Permet d'enregistrer un nouvel utilisateur sur la plateforme.
 
-
+ 
 Le formulaire contient 3 champs : "username", "Mot de passe" et "Confirmation du mot de passe".
     
 Au clic sur le bouton "S'enregistrer", le formulaire va déclancher l'évenement `ngSubmit`. Le formulaire est déjà configuré pour invoquer la méthode `submit()` déclarée sur le composant
@@ -58,7 +58,7 @@ Au clic sur le bouton "S'enregistrer", le formulaire va déclancher l'évenement
 
 Le inputs son créés à partir du composant `nz-form-item` de la ui library [ng-zorro](https://ng.ant.design/components/input/en)
 
-#### Level I
+#### Level I 
     
 1. Terminer le formulaire pour l'ajout d'un utilisateur
 2. Rendre le username et le mot de passe obligatoires

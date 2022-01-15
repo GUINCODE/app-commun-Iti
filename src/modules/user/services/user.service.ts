@@ -43,4 +43,10 @@ export class UserService {
   search(token: string): Promise<User[]> {
     return this.queries.search(token);
   }
+
+  async checkUserName(username: string): Promise<boolean>{
+    const isExite = await this.queries.exists(username)
+    return isExite;
+  }
 }
+

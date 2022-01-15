@@ -2,29 +2,30 @@
   <form nz-form nzLayout="vertical" #f="ngForm" (ngSubmit)="submit()">
     <nz-form-item>
       <nz-form-label nzFor="username">Username</nz-form-label>
-      <nz-form-control>
+      <nz-form-control nzErrorTip="  Champs obligatoire ">
         <input class="ant-input" type="text" name="username" id="username" [(ngModel)]="model.username"
-          #username="ngModel">
+          #username="ngModel" required  (change)="isExistUserName()">
       </nz-form-control>
+          <small class="text-danger" style="color:rgb(255, 174, 0)" *ngIf="!disnponible && model.username.length>0"> le username <strong>{{model.username}}</strong> n'est pas disponible !!</small>
     </nz-form-item>
     <nz-form-item>
-      <nz-form-label nzFor="password">Mot de passe</nz-form-label>
-      <nz-form-control>
+      <nz-form-label >Mot de passe</nz-form-label>
+      <nz-form-control nzErrorTip=" Champs obligatoire ">
         <input class="ant-input" type="password" name="password" id="password" [(ngModel)]="model.password"
-          #password="ngModel">
+          #password="ngModel" required>
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label nzFor="confirm-password">Confirmation du mot de passe</nz-form-label>
-      <nz-form-control>
+      <nz-form-control  nzErrorTip="Mots de passe ne correspondent pas, réesssayé!!! ">
         <input class="ant-input" type="password" name="confirm-password" id="confirm-password"
-          [(ngModel)]="model.confirmPassword" #confirm="ngModel">
+          [(ngModel)]="model.confirmPassword" #confirm="ngModel" required>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-control>
-        <button class="register-button" nz-button nzType="default" [disabled]="f.form.invalid">S'enregistrer</button>
+        <button class="register-button" nz-button nzType="default" [disabled]="f.form.invalid || !disnponible " >S'enregistrer</button>
       </nz-form-control>
     </nz-form-item>
   </form>
