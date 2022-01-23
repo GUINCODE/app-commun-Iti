@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import { NzMessageService } from "ng-zorro-antd/message";
 import { AuthenticationService } from '../../services/authentication.service';
 
+
 class LoginFormModel {
   username = "";
   password = "";
-  falseConnexion = false
+
 }
 
 @Component({
@@ -32,7 +33,6 @@ export class LoginComponent implements OnInit {
 
   goToRegistration() {
    this.router.navigate(['/splash/register']);
-  //  console.log("register");
   }
 
    messageLoginFailled(): void {
@@ -46,15 +46,14 @@ export class LoginComponent implements OnInit {
     if (this.ngForm.form.invalid) {
       return;
     }
-    //  console.log("test login");
-
     try {
       // TODO vérifier le résultat de l'authentification. Rediriger sur "/" en cas de succès ou afficher une erreur en cas d'échec
-      if (await (await this.authService.authenticate(this.model.username, this.model.password)).success) {
+      if ( (await this.authService.authenticate(this.model.username, this.model.password)).success) {
         this.router.navigate(['/']);
+      } else {
+        this.messageLoginFailled()
       }
-      this.model.falseConnexion= true
-      this.messageLoginFailled()
+
     } catch (e) {
       this.nzMessageService.error("Une erreur est survenue. Veuillez réessayer plus tard");
     }

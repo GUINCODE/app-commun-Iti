@@ -1,3 +1,11 @@
 <div class="post-attachement-audio">
   <!-- Balise audio -->
+
+  <audio controls>
+    <source [src]="element.url" type="audio/mp3">
+    <source [src]="element.url" type="audio/ogg">
+    <source [src]="element.url" type="audio/wav">
+    <source src="/Users/aguibou/Downloads/audioTest.mp3" type="audio/wav">
+    Votre navigateur ne supporte pas ce type d'audio.
+  </audio>
 </div>

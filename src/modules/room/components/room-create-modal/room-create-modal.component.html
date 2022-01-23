@@ -8,6 +8,12 @@
           <nz-option nzValue="text" nzLabel="Libre"></nz-option>
         </nz-select>
       </nz-form-control>
+      <nz-form-item>
+        <nz-form-label nzFor="name">Nom de la room</nz-form-label>
+        <nz-form-control nzErrorTip="Nom obligatoire">
+        <input class="ant-input" type="text"  [(ngModel)]="model.name" name="name" id="name"  #nom="ngModel" required>
+        </nz-form-control>
+      </nz-form-item>
     </nz-form-item>
   </form>
 </nz-modal>

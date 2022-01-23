@@ -17,6 +17,7 @@ export class RoomService {
                 rooms: [...s.rooms, room]
             }
         })
+
         return room;
     }
 

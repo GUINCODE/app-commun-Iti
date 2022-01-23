@@ -3,10 +3,9 @@ import { WebSocketTopic } from "src/modules/common/WebSocketTopic";
 import { Post, PostBase, PostData } from "../post.model";
 import { PostMapper } from "./post.mapper";
 
-@Injectable()
+@Injectable( {providedIn : 'root' }  )
 export class FeedSocketService {
   private postSubscription?: [string, (post: PostBase) => any];
-
   constructor(private socketToic: WebSocketTopic, private mapper: PostMapper) {
   }
 

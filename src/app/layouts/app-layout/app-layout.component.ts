@@ -1,7 +1,13 @@
+import { NotificationStore } from './../../../modules/notification/notification.store';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AuthenticationStore } from 'src/modules/authentication/authentication.store';
 import { WebsocketConnection } from 'src/modules/common/WebsocketConnection';
+import { NotificationService } from 'src/modules/notification/services/notification.service';
+import { AnyNotification } from 'src/modules/notification/notification.model';
+import { Router } from '@angular/router';
+import { SafeResourceUrl } from '@angular/platform-browser';
+import { NotificationSocketService } from 'src/modules/notification/services/notification.socket.service';
 
 @Component({
   selector: 'app-app-layout',
@@ -9,10 +15,19 @@ import { WebsocketConnection } from 'src/modules/common/WebsocketConnection';
   styleUrls: ['./app-layout.component.less']
 })
 export class AppLayoutComponent implements OnInit, OnDestroy {
+  [x: string]: any;
   sub?: Subscription;
+  notifications : AnyNotification[] = [];
+
 
   showDrawer: boolean = false;
-  constructor(private socket: WebsocketConnection, private authStore: AuthenticationStore) {
+  constructor(private socket: WebsocketConnection,
+     private authStore: AuthenticationStore,
+     private notificationService: NotificationService,
+      private notificationStore: NotificationStore,
+      private router: Router,
+      private notifSocker: NotificationSocketService
+      ) {
   }
 
   ngOnInit(): void {
@@ -31,6 +46,33 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
     }
   }
   onToggleNotifications() {
-
+    this.showDrawer = !this.showDrawer;
+   if (this.showDrawer) {
+     this.getNotifications()
+   }
   }
+
+   async getNotifications() {
+    await this.notificationService.fetch()
+    this.notifications = this.notificationStore.value.notifications
+    this.getNewNotification()
+  }
+
+  markeViewed(){
+    this.notificationService.markAsViewed()
+  }
+  goRoomConcerne(roomId: string) {
+   this.showDrawer = false;
+  // console.log(notif.payload.roomId);
+  this.router.navigate(['app/'+roomId]);
+  }
+
+  getNewNotification(){
+     this.notifSocker.onNewNotification((notifications)=>{
+     console.log(notifications);
+
+  })
+  }
+
+
 }

@@ -9,10 +9,12 @@ import { MessageImageElement } from '../../../post.model';
 export class PostAttachementImageComponent implements OnInit {
   @Input()
   element: MessageImageElement;
+  @Input() src: string;
 
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
 }

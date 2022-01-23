@@ -6,7 +6,6 @@ import { AuthenticationCommands, LoginCommandResult, LogoutCommandResult } from 
 @Injectable()
 export class LocalAuthenticationCommands extends AuthenticationCommands {
   private userStorage: UserLocalStorage = new UserLocalStorage();
-
   async login(username: string, password: string): Promise<LoginCommandResult> {
     const users = this.userStorage.getValue();
     const userId = Object.keys(users).find(id => users[id].username === username);

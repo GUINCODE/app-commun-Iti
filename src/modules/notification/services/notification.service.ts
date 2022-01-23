@@ -21,6 +21,8 @@ export class NotificationService {
         notifications
       }
     });
+
+
   }
 
   async markAsViewed() {

@@ -65,7 +65,6 @@ export class FeedInputComponent {
     this.currentMention = undefined;
   }
 
-
   /**
    * Message change evetn handler
    * @param message
@@ -130,7 +129,10 @@ export class FeedInputComponent {
     }
 
     // TODO émettre  l'évènement "messageSent" via la méthode fireMessageSent
+    this.fireMessageSent()
+
     // TODO vider la zone de saise avec la méthode clear
+    this.clear();
   }
 
   /**
@@ -146,8 +148,12 @@ export class FeedInputComponent {
    */
   fireMessageSent() {
     // TODO émettre l'évènement "messageSent"
+     this.messageSent.emit({
+    'date': new Date(),
+    'message': this.message,
+     'file': this.file ? this.file : undefined
+     })
   }
-
   /**
    * Clear the message to reset the input
    */

@@ -15,7 +15,8 @@ class UserRegistrationFormModel {
   styleUrls: ['./user-registration.component.less']
 })
 export class UserRegistrationComponent implements OnInit {
-  disnponible = true
+  disnponible : boolean ;
+
   @ViewChild("f")
   form: NgForm;
 
@@ -39,13 +40,6 @@ export class UserRegistrationComponent implements OnInit {
       return
     }
 
-    // TODO verification si le username est disponible
-    //  if (await this.isExistUserName()){
-
-    //  } else {
-
-    //  }
-
     // TODO Enregistrer l'utilisateur via le UserService
 
      this.userService.register(this.model.username, this.model.password)
@@ -58,21 +52,18 @@ export class UserRegistrationComponent implements OnInit {
      this.router.navigate(['/splash/login']);
   }
 
+      // TODO verification si le username est disponible
     async isExistUserName(): Promise<boolean> {
+      // this.disnponible = false;
     if (this.model.username.length > 0) {
       if (  await this.userService.checkUserName(this.model.username)) {
-        console.log(this.model.username+" non disponible ");
      this.disnponible = false;
           return true
      }
      this.disnponible = true;
-      console.log(this.model.username+" disponible ");
-
      return false
     }
     return false
-
-
    }
 
 

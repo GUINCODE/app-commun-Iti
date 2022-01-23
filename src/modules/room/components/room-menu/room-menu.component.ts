@@ -2,11 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { FeedStore } from 'src/modules/feed/feed.store';
+import { AnyNotification } from 'src/modules/notification/notification.model';
+import { NotificationSocketService } from 'src/modules/notification/services/notification.socket.service';
 import { Room } from '../../room.model';
 import { RoomStore } from '../../room.store';
 import { RoomQueries } from '../../services/room.queries';
 import { RoomService } from '../../services/room.service';
 import { RoomSocketService } from '../../services/room.socket.service';
+import { RoomCreateModalComponent } from '../room-create-modal/room-create-modal.component';
 @Component({
   selector: 'app-room-menu',
   templateUrl: './room-menu.component.html',
@@ -14,19 +17,44 @@ import { RoomSocketService } from '../../services/room.socket.service';
 })
 export class RoomMenuComponent implements OnInit {
   roomId$: Observable<string | undefined>;
-
-  rooms: Room[];
-
-  constructor(private feedStore: FeedStore, private queries: RoomQueries, private roomSocketService: RoomSocketService) {
+   rooms: Room[];
+  constructor(private feedStore: FeedStore,
+     private queries: RoomQueries,
+     private roomSocketService: RoomSocketService,
+    private  router: Router,
+    private notifSoketService: NotificationSocketService
+     ) {
     this.roomId$ = feedStore.roomId$;
     this.rooms = [];
   }
-
   async ngOnInit() {
+
     this.rooms = await this.queries.getAll();
+    if (this.feedStore.value.roomId === undefined) {
+        if(localStorage.getItem('idRoom') === null) {
+          localStorage.setItem('idRoom', this.rooms[0].id);
+          this.router.navigate(['app/'+this.rooms[0].id]);
+
+        } else {
+          this.router.navigate(['app/'+localStorage.getItem('idRoom')]);
+        }
+    } else {
+       this.router.navigate(['app/'+this.feedStore.value.roomId]);
+    }
   }
+ async roomListUpdated() {
+    this.rooms = await this.queries.getAll();
+ }
 
   goToRoom(room: Room) {
     // TODO naviguer vers app/[id de la room]
+    this.router.navigate(['app/'+room.id]);
+     //On enregistre l'id du dernier room consuleter dans localstrorage pour pouvoir naviguer automatiquement la prochaine fois
+      localStorage.setItem('idRoom',  room.id);
   }
+
+
+
 }
+
+

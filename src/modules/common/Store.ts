@@ -20,7 +20,7 @@ export class MutableStore<T> {
         return this._behaviorSubject.value;
     }
 
-    get value() {
+    get       value() {
         return this._behaviorSubject.value as T;
     }
 

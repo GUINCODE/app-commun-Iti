@@ -1,13 +1,48 @@
 <div class="app-layout">
   <div class="panel-drawer" [ngClass]="{opened: showDrawer}">
     <!-- Afficher la liste des notifications -->
+        <small *ngIf="notifications.length==0" class="aucuneNotif">Aucune notification réçu!!!</small>
+        <div *ngFor="let notif of notifications" >
+          <div  class="notificationRecue" *ngIf="notif.subject ==='post_liked' " [ngStyle]="notif.viewedAt ==null && {'background-color': 'green'}" (click)="markeViewed() ; goRoomConcerne(notif.payload.roomId)">
+            <img [src]="notif.payload.user.photoUrl ? notif.payload.user.photoUrl  : 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/434px-Unknown_person.jpg' " alt="..."  />
+             <div>
+              <span><strong> {{notif.payload.user.username}}</strong></span> <br>
+              <small>Aime votre poste</small>
+           <p><small> {{notif.timestamp | date:'short'}}</small></p>
+             </div>
+          </div>
+          <div class="notificationRecue" *ngIf="notif.subject ==='new_user'  " (click)="markeViewed()" [ngStyle]="notif.viewedAt ==null && {'background-color': 'green'}" >
+          <img
+            [src]="notif.payload.user.photoUrl ? notif.payload.user.photoUrl  : 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/434px-Unknown_person.jpg' "
+            alt="..." />
+            <div>
+              <span> <strong>{{notif.payload.user.username}} </strong></span> <br>
+              <p>Vient de rejoindre le serveur</p>
+              <small>{{notif.timestamp | date:'short'}}</small>
+            </div>
+          </div>
+          <div class="notificationRecue" *ngIf="notif.subject ==='room_added'  " (click)="markeViewed() ; goRoomConcerne(notif.payload.room.id)" [ngStyle]="notif.viewedAt ==null && {'background-color': 'green'}" >
+            <img
+              [src]="notif.payload.user.photoUrl ? notif.payload.user.photoUrl  : 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/434px-Unknown_person.jpg' "
+              alt="..." />
+            <div>
+
+              <div>
+                <p> <strong>{{notif.payload.user.username}}</strong> à Crée le room  <strong>{{notif.payload.room.name}}</strong></p>
+               <small> {{notif.timestamp | date:'short'}}</small>
+              </div>
+            </div>
+          </div>
+
+       </div>
   </div>
   <div class="app-layout-panel-left">
+
     <div class="panel-head">
       <app-user-widget (toggleNotifications)="onToggleNotifications()"></app-user-widget>
     </div>
     <div class="panel-body">
-      <app-room-menu></app-room-menu>
+      <app-room-menu ></app-room-menu>
     </div>
 
   </div>
