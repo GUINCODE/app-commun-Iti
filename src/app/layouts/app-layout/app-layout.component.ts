@@ -55,7 +55,7 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
    async getNotifications() {
     await this.notificationService.fetch()
     this.notifications = this.notificationStore.value.notifications
-    this.getNewNotification()
+    console.log( this.notifications );
   }
 
   markeViewed(){
@@ -67,12 +67,6 @@ export class AppLayoutComponent implements OnInit, OnDestroy {
   this.router.navigate(['app/'+roomId]);
   }
 
-  getNewNotification(){
-     this.notifSocker.onNewNotification((notifications)=>{
-     console.log(notifications);
-
-  })
-  }
 
 
 }
